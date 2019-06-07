@@ -7,6 +7,8 @@ OpenSource Telecom Billing and Rating for MVNO or Recurring Billing Business. So
   * Any Recurring Invoice yearlly Billing.
   * Any Recurring Invoice Daily Billing.
   * Any Onetime Invoice Or Retail Billing.
+  * Flat Rating charges Billing.
+  * Auto Payment Allocations.
  
 # Supported Features in Free version 
   * Configurable Framework with plugin extentions. 
