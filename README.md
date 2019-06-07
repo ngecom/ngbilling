@@ -1,7 +1,7 @@
 # ngbilling
-Telecom Billing and Rating for MVNO or Recurring Billing Business
+OpenSource Telecom Billing and Rating for MVNO or Recurring Billing Business. Some of the interesting usecases are available in last sections. Customized plugins can be configured easly to add features. 
 
-# Supported Business in Free version
+# Supported Business in Free version.  
   * Any Recurring Invoice Monthly Billing.
   * Any Recurring Invoice Weekly Billing.
   * Any Recurring Invoice yearlly Billing.
@@ -23,12 +23,15 @@ Telecom Billing and Rating for MVNO or Recurring Billing Business
   * Tax percentage support.
   * Absolute discounts.
   * Notifications(Invoice,Payment,Customer,Order)
+  * Flat Rating supported. Additional plugins needs to install for Bundles and flexi rating policies
 
 # Installation
   # Pre-Requisites
     * Java 8.
     * Postgres SQL 9.3 or above
     * Operating System Windows/Linux.
+  # NgBilling installation
+    * Download the code and extract to a Local Folder.
   # Setting up the Database
     * Login to Postgres. 
        psql -U postgres
@@ -46,3 +49,9 @@ Telecom Billing and Rating for MVNO or Recurring Billing Business
     * Logout from postgres by entering \q and Run the below command and enter the password 'ngbillingbase'
        psql -U ngbillingbase -d ngbillingbase < \home\rakesh\ngbillingbase\sqls\ngbillingbase.sql
     * Above script will load all required tables to database.
+  
+   # Login to NGBilling
+    * Go to the browser and type localhost:8080/ngbilling
+    * Login with username and Password admin/ngAdmin123$
+    
+  
