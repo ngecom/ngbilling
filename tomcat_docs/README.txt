@@ -1,0 +1,1 @@
+This directory contains the Apache license that is used for Drools and Tomcat. This directory does not have jBilling's license. This can be found in the file COPYING found in the root directory of the package.

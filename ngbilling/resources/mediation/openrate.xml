@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE format SYSTEM "mediation.dtd" >
+<format>
+   
+    <field>
+        <name>userId</name>
+        <type>string</type>
+		 <isKey/>
+    </field>
+    <field>
+        <name>deviceId</name>
+        <type>string</type>
+    </field> 
+	
+	<field>
+        <name>duration</name>
+        <type>integer</type>
+    </field>
+	
+	<field>
+        <name>callType</name>
+        <type>string</type>
+    </field>
+	
+	<field>
+        <name>callStart</name>
+        <type>string</type>
+    </field>
+	
+    <field>
+        <name>cost</name>
+        <type>string</type>
+    </field>
+ 
+ </format>

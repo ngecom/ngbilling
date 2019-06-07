@@ -1,0 +1,20 @@
+----------------------------------------------------------------
+2016-11-22 09:37:36.202 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.2.1.6 - (452058): instance c013800d-0158-8b65-d30b-000021f41058
+on database directory /home/rakesh/Documents/MyCommercialProducts/jbilling4/Binary/refClients/bin/repository/version/db  
+
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+2016-11-22 09:37:38.035 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.2.1.6 - (452058): instance e03f4017-0158-8b65-d30b-000021f41058
+on database directory /home/rakesh/Documents/MyCommercialProducts/jbilling4/Binary/refClients/bin/repository/workspaces/default/db  
+
+Database Class Loader started - derby.database.classpath=''
+
+2016-11-22 09:37:41.005 GMT:
+Shutting down instance e03f4017-0158-8b65-d30b-000021f41058
+----------------------------------------------------------------
+
+2016-11-22 09:37:41.067 GMT:
+Shutting down instance c013800d-0158-8b65-d30b-000021f41058
+----------------------------------------------------------------
