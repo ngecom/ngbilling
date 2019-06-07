@@ -1,5 +1,5 @@
 # ngbilling
-OpenSource Telecom Billing and Rating for MVNO or Recurring Billing Business. Some of the interesting usecases are available in last sections. Customized plugins can be configured easly to add features. 
+OpenSource Telecom Billing and Rating for MVNO or Recurring Billing Business. Some of the interesting supported usecases are available in last sections. Customized plugins can be configured easly to add features. 
 
 # Supported Business in Free version.  
   * Any Recurring Invoice Monthly Billing.
@@ -54,4 +54,6 @@ OpenSource Telecom Billing and Rating for MVNO or Recurring Billing Business. So
     * Go to the browser and type localhost:8080/ngbilling
     * Login with username and Password admin/ngAdmin123$
     
-  
+  # Supported UseCases by Free version
+    * Refer documents
+      * [This is a link](ngbilling/readme.md)
