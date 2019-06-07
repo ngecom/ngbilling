@@ -23,3 +23,26 @@ Telecom Billing and Rating for MVNO or Recurring Billing Business
   * Tax percentage support.
   * Absolute discounts.
   * Notifications(Invoice,Payment,Customer,Order)
+
+# Installation
+  # Pre-Requisites
+    * Java 8.
+    * Postgres SQL 9.3 or above
+    * Operating System Windows/Linux.
+  # Setting up the Database
+    * Login to Postgres. 
+       psql -U postgres
+        (Login may ask for password provide the password which was given during postgres installation)
+    * Create the role. 
+       CREATE USER ngbillingbase WITH PASSWORD 'ngbillingbase';
+    * Create database database_name;
+       CREATE DATABASE ngbillingbase
+       WITH OWNER = ngbillingbase
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'en_US.UTF-8'
+       LC_CTYPE = 'en_US.UTF-8'
+       CONNECTION LIMIT = -1;
+    * Logout from postgres by entering \q and Run the below command and enter the password 'ngbillingbase'
+       psql -U ngbillingbase -d ngbillingbase < \home\rakesh\ngbillingbase\sqls\ngbillingbase.sql
+    * Above script will load all required tables to database.
