@@ -55,5 +55,5 @@ OpenSource Telecom Billing and Rating for MVNO or Recurring Billing Business. So
     * Login with username and Password admin/ngAdmin123$
     
   # Supported UseCases by Free version
-    * Refer documents
-      * [This is a link](ngbilling/readme.md)
+    [I'm an inline-style link](https://www.google.com)
+
