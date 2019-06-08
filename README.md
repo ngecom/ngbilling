@@ -1,5 +1,5 @@
 # ngbilling
-OpenSource Next Generation Billing and Rating for Telecom and Subscription Billing for B2B and B2C Systems. Some of the interesting supported usecases are available in last sections. Customized plugins can be configured easly to add features in Billing plugin stack. 
+OpenSource Next Generation Billing and Rating for Telecom. This can be also used as Subscription Billing for B2B and B2C Systems. Some of the interesting supported usecases are available in last sections. Customized plugins can be configured easly to add features in Billing plugin stack. 
  
 # Supported Business in Free version.  
   * Any Recurring Invoice Monthly Billing.
