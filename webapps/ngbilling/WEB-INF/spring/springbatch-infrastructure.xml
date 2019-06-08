@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+	<!-- job repository instance for persitance job details, Use already created repository in resources.xml -->
+	<!-- bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+   		<property name="transactionManager" ref="transactionManager" />
+   		<property name="dataSource" ref="dataSource" />
+		<property name="isolationLevelForCreate" value="ISOLATION_DEFAULT" />
+	</bean -->
+		
+	<!-- job launcher bean to be used to launch a job, Use job launcher defined in resources.xml-->
+	<!-- bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean-->
+
+	<!-- job explorer bean, use job explorer defined in resources.xml -->
+	<!-- bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="lobHandler" ref="lobHandler"/>
+	</bean>
+
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/-->
+
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="${springbatch.executor.core.pool.size}" />
+		<property name="maxPoolSize" value="${springbatch.executor.max.pool.size}" />
+	</bean>
+	
+	<!--	custom exception skip policy to skip users throwing specific exceptions	-->
+	<bean id="skipPolicy" class="com.sapienter.jbilling.batch.ExceptionSkipPolicy"/>	
+
+    <bean id    = "emailAndPaymentTaskExecutor"
+          class = "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name = "corePoolSize" value = "${springbatch.executor.core.pool.size}" />
+        <property name = "maxPoolSize"  value = "${springbatch.executor.max.pool.size}"  />
+    </bean>
+
+</beans>

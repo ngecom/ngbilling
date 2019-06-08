@@ -1,0 +1,25 @@
+<plugin name='jquery-ui' version='1.10.4' grailsVersion='2.0 &gt; *'>
+  <title>jQuery UI Plugin</title>
+  <description>Simply supplies jQuery UI resources, depends on jQuery plugin. Use this plugin to avoid resource duplication and conflicts.</description>
+  <documentation>http://grails.org/plugin/jquery-ui</documentation>
+  <type>JqueryUiGrailsPlugin</type>
+  <resources>
+    <resource>JqueryUiPluginResources</resource>
+    <resource>com.grailsrocks.jqueryui.JqueryUiTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies />
+  <plugins>
+    <runtime>
+      <plugin group='org.grails.plugins' name='jquery' version='1.10.2' />
+    </runtime>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

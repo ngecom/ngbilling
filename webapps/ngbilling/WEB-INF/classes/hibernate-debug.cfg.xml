@@ -1,0 +1,18 @@
+<!DOCTYPE hibernate-configuration SYSTEM
+    "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+<!-- http://stackoverflow.com/a/11410346 -->
+<!-- 
+<!DOCTYPE hibernate-configuration SYSTEM
+  "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ -->
+<hibernate-configuration>
+    <session-factory>
+        <!-- connection settings -->
+        <property name="hibernate.connection.release_mode">after_transaction</property>
+
+        <!--  Debugger helpers -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
+        <property name="hibernate.use_sql_comments">false</property>
+    </session-factory>
+</hibernate-configuration>

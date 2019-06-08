@@ -1,0 +1,64 @@
+.jstree-icon.DocDesign {
+    background-image: url('resource:/css/jstree/tree/Report_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-open .jstree-icon.DocDesign {
+    background-image: url('resource:/css/jstree/tree/Report_O.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-closed .jstree-icon.DocDesign {
+    background-image: url('resource:/css/jstree/tree/Report_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-open .jstree-icon.Section {
+    background-image: url('resource:/css/jstree/tree/Section_O.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-closed .jstree-icon.Section {
+    background-image: url('resource:/css/jstree/tree/Section_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-open .jstree-icon.Band {
+    background-image: url('resource:/css/jstree/tree/Band_O.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-closed .jstree-icon.Band {
+    background-image: url('resource:/css/jstree/tree/Band_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.Text {
+    background-image: url('resource:/css/jstree/tree/Text.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.TextBox {
+    background-image: url('resource:/css/jstree/tree/TextBox.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.Image {
+     background-image: url('resource:/css/jstree/tree/Image.png')!important;
+     background-position: 0 0!important;
+}
+
+.jstree-icon.InvoiceLines {
+    background-image: url('resource:/css/jstree/tree/Invoice.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.EventLines {
+    background-image: url('resource:/css/jstree/tree/EventLines.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.List, .jstree-icon.SubReport {
+    background-image: url('resource:/css/jstree/tree/List.png')!important;
+    background-position: 0 0!important;
+}

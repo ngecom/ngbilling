@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ftpDefaultSessionFactory"
+          class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory"
+          scope="prototype">
+        <property name="clientMode" value="2"/>
+        <property name="fileType" value="2"/>
+    </bean>
+
+    <bean id="keyManager" class="com.sapienter.jbilling.server.process.task.security.AlwaysValidKeyManager"></bean>
+    <bean id="trustManager" class="com.sapienter.jbilling.server.process.task.security.AlwaysValidTrustManager"></bean>
+
+    <!--Ftps session factory example, the retriever class is the same as the FtpFileRetriever-->
+    <bean id="ftpsDefaultSessionFactory"
+          class="org.springframework.integration.ftp.session.DefaultFtpsSessionFactory"
+          scope="prototype">
+        <!--<property name="host" value="localhost"/>-->
+        <!--<property name="port" value="9187"/>-->
+        <!--<property name="username" value="user"/>-->
+        <!--<property name="password" value="password"/>-->
+        <property name="clientMode" value="2"/>
+        <property name="fileType" value="2"/>
+        <property name="useClientMode" value="true"/>
+        <!--<property name="cipherSuites" value="a,b.c"/>-->
+        <property name="keyManager" ref="keyManager"/>
+        <property name="trustManager" ref="trustManager"/>
+        <property name="wantsClientAuth" value="false"/>
+        <property name="needClientAuth" value="true"/>
+        <property name="sessionCreation" value="true"/>
+        <property name="authValue" value="jdeveloper"/>
+        <property name="protocol" value="TLS"/>
+        <property name="prot" value="P"/>
+        <property name="protocols" value="TLSv1"/>
+        <property name="implicit" value="true"/>
+    </bean>
+
+    <bean id="sftpDefaultSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
+    </bean>
+ 
+</beans>

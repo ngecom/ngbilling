@@ -1,0 +1,6 @@
+id,name,surcharge,initial_increment,subsequent_increment,charge,free_destination,route_id,active_date
+1,F1,0,30,6,1,6132991908,CANON,2011/01/01-2012/01/01
+2,F2,0,60,6,1,6132661717,CANOM,2011/01/01
+3,F3,0,45,6,1,8192234512,NAARG,2011/01/01
+4,F4,0,60,60,1,8192234555,PRARG,2011/01/01
+5,F6,0,60,66,1,6132991888,CANON,2012/01/01

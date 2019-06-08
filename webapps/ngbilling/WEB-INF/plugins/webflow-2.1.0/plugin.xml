@@ -1,0 +1,9 @@
+<plugin name='webflow' version='2.1.0' grailsVersion='2.4 &gt; *'>
+  <author>Graeme Rocher</author>
+  <authorEmail>grocher@gopivotal.com</authorEmail>
+  <title>Spring Web Flow Plugin</title>
+  <description>Integrates Spring Web Flow with Grails</description>
+  <documentation>http://grails-plugins.github.io/grails-webflow-plugin/</documentation>
+  <type>WebflowGrailsPlugin</type>
+  <resources />
+</plugin>

@@ -1,0 +1,26 @@
+<plugin name='remoting' version='1.3' grailsVersion='2.0 &gt; *'>
+  <author>Peter Ledbrook</author>
+  <authorEmail>peter@cacoethes.co.uk</authorEmail>
+  <title>Remoting Plugin</title>
+  <description>This plugin makes it easy to expose your Grails services to remote clients via RMI, Hessian, Burlap and Spring's HttpInvoker protocol.
+In addition, you can easily access remote services via the same set of protocols.
+</description>
+  <documentation>http://grails.org/plugin/remoting</documentation>
+  <type>RemotingGrailsPlugin</type>
+  <resources />
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies>
+    <runtime>
+      <dependency group='com.caucho' name='hessian' version='4.0.7' />
+    </runtime>
+  </dependencies>
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

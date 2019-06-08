@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:hdp="http://www.springframework.org/schema/hadoop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+
+    <!--	spring batch configuration	-->
+    <import resource="springbatch-infrastructure.xml"/>
+    <import resource="springintegration-infrastructure.xml"/>
+    <import resource="billing-process-job-context.xml"/>
+    <import resource="ageing-process-job-context.xml"/>
+
+
+    <!--
+          ***************************************************
+          *         MAIN BEAN DEFINITIONS               *
+          ***************************************************
+    -->
+
+    <!-- Session Facade beans, used mostly for transaction control and other AOP -->
+    <bean id="itemSession" class="com.sapienter.jbilling.server.item.ItemSessionBean"/>
+    <bean id="notificationSession" class="com.sapienter.jbilling.server.notification.NotificationSessionBean"/>
+    <bean id="customerSession" class="com.sapienter.jbilling.server.customer.CustomerSessionBean"/>
+    <bean id="userSession" class="com.sapienter.jbilling.server.user.UserSessionBean"/>
+    <bean id="invoiceSession" class="com.sapienter.jbilling.server.invoice.InvoiceSessionBean"/>
+    <bean id="orderSession" class="com.sapienter.jbilling.server.order.OrderSessionBean"/>
+    <bean id="pluggableTaskSession" class="com.sapienter.jbilling.server.pluggableTask.PluggableTaskSessionBean"/>
+    <bean id="paymentSession" class="com.sapienter.jbilling.server.payment.PaymentSessionBean"/>
+    <bean id="mediationSession" class="com.sapienter.jbilling.server.mediation.MediationSessionBean"/>
+    <bean id="billingProcessSession" class="com.sapienter.jbilling.server.process.BillingProcessSessionBean"/>
+	<bean id="authenticationUserService" class="com.sapienter.jbilling.client.authentication.AuthenticationUserService"/>
+
+    <!-- The web services API, which is used as main service in the GUI -->
+    <bean id="webServicesSession" class="com.sapienter.jbilling.server.util.WebServicesSessionSpringBean">
+        <aop:scoped-proxy/>
+    </bean>
+
+    <!-- The web services API, which is used as main service in the GUI -->
+    <bean id="migrationServicesSession" class="com.sapienter.jbilling.server.util.MigrationServicesSessionSpringBean">
+        <aop:scoped-proxy/>
+        <property name="webServicesSessionBean" ref="webServicesSession"/>
+    </bean>
+
+    <!-- Data Access Service beans -->
+    <bean id="internationalDescriptionDAS" class="com.sapienter.jbilling.server.util.db.InternationalDescriptionDAS"
+          factory-method="getInstance" scope="prototype">
+        <property name="jbDAS" ref="jbillingTableDAS"/>
+    </bean>
+
+    <bean id="jbillingTableDAS" class="com.sapienter.jbilling.server.util.db.JbillingTableDAS"
+          factory-method="getInstance" scope="prototype">
+        <property name="cache" ref="cacheProviderFacade"/>
+        <property name="cacheModel" ref="cacheModelReadOnly"/>
+    </bean>
+
+    <bean id="pluggableTaskDAS" class="com.sapienter.jbilling.server.pluggableTask.admin.PluggableTaskDAS"
+          factory-method="getInstance" scope="prototype">
+        <property name="cache" ref="cacheProviderFacade"/>
+        <property name="cacheModel" ref="cacheModelPTDTO"/>
+        <property name="flushModel" ref="flushModelPTDTO"/>
+    </bean>
+
+    <!-- Utility beans -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean"/>
+
+    <!-- Thrid level cache configuration. Annotations and proxies do not work, other proxies get confused  -->
+    <bean id="cacheManager"
+          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+          <property name = "configLocation" value = "classpath:ehcache-springcache.xml"/>
+    </bean>
+
+    <bean id="cacheProviderFacade"
+          class="org.springmodules.cache.provider.ehcache.EhCacheFacade">
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <bean id="cacheModelReadOnly" class="org.springmodules.cache.provider.ehcache.EhCacheCachingModel">
+        <property name="cacheName" value="thirdLevel-RO"/>
+    </bean>
+
+    <bean id="cacheModelPTDTO" class="org.springmodules.cache.provider.ehcache.EhCacheCachingModel">
+        <property name="cacheName" value="thirdLevel-RW"/>
+    </bean>
+
+    <bean id="flushModelPTDTO" class="org.springmodules.cache.provider.ehcache.EhCacheFlushingModel">
+        <property name="cacheNames" value="thirdLevel-RW"/>
+        <property name="flushBeforeMethodExecution" value="true"/>
+    </bean>
+
+    <!-- Item Price cache configuration. -->
+    <bean id="cacheModelItemPrice" class="org.springmodules.cache.provider.ehcache.EhCacheCachingModel">
+        <property name="cacheName" value="itemPriceCache"/>
+    </bean>
+
+    <bean id="flushModelItemPrice" class="org.springmodules.cache.provider.ehcache.EhCacheFlushingModel">
+        <property name="cacheNames" value="itemPriceCache"/>
+        <property name="flushBeforeMethodExecution" value="true"/>
+    </bean>
+
+    <!-- Currency cache configuration. -->
+    <bean id="cacheModelCurrency" class="org.springmodules.cache.provider.ehcache.EhCacheCachingModel">
+        <property name="cacheName" value="currencyCache"/>
+    </bean>
+
+    <bean id="flushModelCurrency" class="org.springmodules.cache.provider.ehcache.EhCacheFlushingModel">
+        <property name="cacheNames" value="currencyCache"/>
+        <property name="flushBeforeMethodExecution" value="true"/>
+    </bean>
+
+	<!-- Preference cache configuration. -->
+    <bean id="cacheModelPreference" class="org.springmodules.cache.provider.ehcache.EhCacheCachingModel">
+        <property name="cacheName" value="preferenceCache"/>
+    </bean>
+
+    <bean id="flushModelPreference" class="org.springmodules.cache.provider.ehcache.EhCacheFlushingModel">
+        <property name="cacheNames" value="preferenceCache"/>
+        <property name="flushBeforeMethodExecution" value="true"/>
+    </bean>
+
+    <!-- Internal event processing configuration for the 'InternalEventsRulesTask' plug-in -->
+    <!-- List of internal events that the rules task subscribes to -->
+    <util:list id="invoiceEvents">
+        <value>com.sapienter.jbilling.server.order.event.OrderToInvoiceEvent</value>
+    </util:list>
+
+    <!-- map the configured events to a specific plug-in instance by id -->
+    <util:map id="internalEventsRulesTaskConfig">
+        <entry key="540" value-ref="invoiceEvents"/>
+    </util:map>
+
+
+    <!--
+          ***************************************************
+          *         AOP: Security / Logging                 *
+          ***************************************************
+    -->
+
+    <!-- Security Advice for WebServicesSessionBean -->
+    <!-- If this jBilling installation is only used by one company and inside a secure on-premise installation,
+         TURN OFF security completely and get a performance boost.
+         To turn off, comment out both of the bean definitions below.
+     -->
+    <bean id="webServicesSecurityAdvice" class="com.sapienter.jbilling.server.security.WSSecurityAdvice"/>
+    <bean id="webServicesSecurityAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="webServicesSecurityAdvice"/>
+        <property name="pattern" value="com.sapienter.jbilling.server.util.IWebServicesSessionBean.*"/>
+        <property name="order" value="1" />
+    </bean>
+
+    <!-- Exception Advice for WebServicesSessionBean -->
+    <!-- Re-throws all exceptions as SessionInternalErrors. -->
+    <bean id="webServicesExceptionAdvice" class="com.sapienter.jbilling.server.util.WSExceptionAdvice"/>
+    <bean id="webServicesExceptionAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="webServicesExceptionAdvice"/>
+        <property name="pattern" value="com.sapienter.jbilling.server.util.WebServicesSessionSpringBean.*"/>
+        <property name="order" value="2" />
+    </bean>
+
+    <!-- Log Advice for WebServicesSessionBean -->
+    <!-- Logs entry and exit for all methods -->
+    <bean id="webServicesLogAdvice" class="com.sapienter.jbilling.server.util.api.APILogger"/>
+    <bean id="webServicesLogAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="webServicesLogAdvice"/>
+        <property name="pattern" value="com.sapienter.jbilling.server.util.WebServicesSessionSpringBean.*"/>
+        <property name="order" value="3" />
+    </bean>
+
+    <!-- Logs time for all methods -->
+    <bean id="stopWatchProto"
+          class="com.sapienter.jbilling.server.util.NanoStopWatch"
+          scope="prototype" lazy-init="true"/>
+    <bean id="stopWatch" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="targetSource">
+            <bean class="org.springframework.aop.target.ThreadLocalTargetSource">
+                <property name="targetBeanName" value="stopWatchProto"/>
+            </bean>
+        </property>
+    </bean>
+    <bean id="stopWatchAdvice"
+          class="com.sapienter.jbilling.server.util.api.APIStopWatchAspect">
+        <property name="stopWatch" ref="stopWatch"/>
+    </bean>
+    <bean id="stopWatchAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="stopWatchAdvice"/>
+        <property name="patterns">
+            <list>
+                <value>com.sapienter.jbilling.server.util.WebServicesSessionSpringBean.*</value>
+                <value>com.sapienter.jbilling.server.user.UserBL.*</value>
+                <value>com.sapienter.jbilling.server.order.OrderBL.*</value>
+                <value>com.sapienter.jbilling.server.invoice.InvoiceBL.*</value>
+                <value>com.sapienter.jbilling.server.payment.PaymentBL.*</value>
+            </list>
+        </property>
+        <property name="order" value="4" />
+    </bean>
+
+    <!-- Email Password Service -->
+    <bean id="passwordService"
+          class="com.sapienter.jbilling.server.util.credentials.EmailResetPasswordService"/>
+
+    <!--<bean id="testResetPasswordService"-->
+          <!--class="com.sapienter.jbilling.server.util.credentials.TestResetPasswordService"/>-->
+
+    <!--
+          ***************************************************
+          *              Validation                         *
+          ***************************************************
+    -->
+
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    </bean>
+
+    <!-- Validation for WebServicesSessionBean -->
+    <!-- Validates any parameter that ends with *WS -->
+    <bean id="webServicesValidationAdvice" class="com.sapienter.jbilling.server.util.api.validation.APIValidator">
+        <property name="validator" ref="validator"/>
+        <property name="objectsToTest">
+            <set>
+                <!-- Enter here endings to match. This is not a regex, just a search of suffix -->
+                <value>WS</value>
+                <value>DTOEx</value>
+            </set>
+        </property>
+    </bean>
+    <bean id="webServicesValidationAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="webServicesValidationAdvice"/>
+        <property name="pattern" value="com.sapienter.jbilling.server.util.WebServicesSessionSpringBean.*"/>
+        <property name="order" value="5" />
+    </bean>
+
+
+    <!--
+          ***************************************************
+          *         JMS Messaging                           *
+          ***************************************************
+    -->
+    <!--
+	<bean id="broker" class="org.apache.activemq.broker.BrokerService">
+		<property name="useJmx" value="true" />
+		<property name="persistent" value="true" />
+		<property name="transportConnectors">
+			<list>
+				<ref bean="tcpConnector" />
+				<ref bean="vmConnector" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tcpConnector" class="org.apache.activemq.broker.TransportConnector">
+   		<property name="uri" value="tcp://localhost:61616"></property>
+   	</bean>
+   	<bean id="vmConnector" class="org.apache.activemq.broker.TransportConnector">
+   		<property name="uri" value="vm://localhost"></property>
+   	</bean>
+     -->
+    <!-- JMS connection factory -->
+    <!--
+    <bean id="jmsConnectionFactory"
+          class="org.springframework.jms.connection.TransactionAwareConnectionFactoryProxy"
+          >
+
+        <property name="targetConnectionFactory">
+            <bean class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+                <property name="connectionFactory">
+                    <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                        <property name="brokerURL" value="vm://localhost"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <property name="synchedLocalTransactionAllowed" value="true" />
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory">
+            <ref local="jmsConnectionFactory"/>
+        </property>
+    </bean>
+    -->
+    <!-- JMS destinations -->
+    <!--
+    <bean id="processorsDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="queue.jbilling.processors"/>
+    </bean>
+
+    <bean id="notificationsDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="queue.jbilling.notifications"/>
+    </bean>
+    -->
+    <!-- Message driven beans -->
+    <!--
+    <bean id="processPaymentMDB" class="com.sapienter.jbilling.server.payment.event.ProcessPaymentMDB"/>
+    <bean id="notificationMDB" class="com.sapienter.jbilling.server.notification.NotificationMDB"/>
+    -->
+    <!-- Queue listeners -->
+    <!--
+    <jms:listener-container connection-factory="jmsConnectionFactory" transaction-manager="transactionManager" acknowledge="transacted">
+        <jms:listener ref="processPaymentMDB" destination="queue.jbilling.processors"/>
+        <jms:listener ref="notificationMDB" destination="queue.jbilling.notifications"/>
+    </jms:listener-container>
+    -->
+
+    <!--
+          ***************************************************
+          *         HSQLDB In-memory Cache                  *
+          ***************************************************
+	-->
+    <!-- HSQLDB in-memory database -->
+    <bean id="memcacheDataSource"
+          class="org.springframework.jdbc.datasource.SingleConnectionDataSource"
+          lazy-init="true">
+        <property name="url" value="jdbc:hsqldb:mem:cacheDB"/>
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+
+    <bean id="memcacheTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="memcacheDataSource"/>
+    </bean>
+
+    <bean id="memcacheTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="memcacheTransactionManager"/>
+    </bean>
+
+    <bean id="memcacheJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="memcacheDataSource"/>
+    </bean>
+
+    <!--
+         Batch
+      -->
+    <bean class="org.springframework.batch.core.scope.StepScope" />
+
+    <job-repository id="jobRepository" xmlns="http://www.springframework.org/schema/batch"
+                          data-source="dataSource"
+                          transaction-manager="transactionManager"
+                          isolation-level-for-create="DEFAULT"/>
+
+    <bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean"
+          p:dataSource-ref="dataSource" />
+
+    <!-- spring batch jobs -->
+    <bean id="jobLauncher"
+          class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"></property>
+    </bean>
+
+    <bean id="asyncJobLauncher"
+          class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"></property>
+        <property name="taskExecutor">
+            <bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+        </property>
+    </bean>
+
+    <!-- AssetLoad: Job loads file containing new asset definitions -->
+    <job id="assetLoadJob" restartable="true" xmlns="http://www.springframework.org/schema/batch">
+        <step id="loadFileAndSaveAssets" >
+            <tasklet>
+                <!-- commit-interval is 1 because in the processor we check that an identifier is unique and with a value > 1
+                it may be asked to check a duplicate identifier before the first is written to the DB -->
+                <chunk reader="assetFileReader" processor="assetValidatingProcessor" writer="assetObjectWriter" commit-interval="1">
+                    <streams>
+                        <stream ref="assetErrorWriter" />
+                    </streams>
+                </chunk>
+            </tasklet>
+        </step>
+    </job>
+
+    <!-- AssetLoad: Load input files-->
+    <bean id="assetFileReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+          scope="step">
+        <property name="lineMapper">
+            <bean class="com.sapienter.jbilling.server.item.batch.WrappingLineMapper" >
+                <property name="delegate">
+            <bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" >
+                        <property name="delimiter" value="," />
+                    </bean>
+                </property>
+                <property name="fieldSetMapper">
+                    <bean class="org.springframework.batch.item.file.mapping.PassThroughFieldSetMapper" />
+                </property>
+            </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="resource">
+        <bean class="org.springframework.core.io.FileSystemResource">
+            <constructor-arg value="#{jobParameters['input_file']}" />
+        </bean>
+        </property>
+    </bean>
+
+    <!-- AssetLoad: Validates asset definitions -->
+    <bean id="assetValidatingProcessor" class="com.sapienter.jbilling.server.item.batch.AssetProcessor" scope="step">
+        <property name="errorWriter" ref="assetErrorWriter" />
+    </bean>
+
+    <!-- AssetLoad: File contains error lines -->
+    <bean id="assetErrorWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+        <property name="resource">
+        <bean class="org.springframework.core.io.FileSystemResource">
+            <constructor-arg value="#{jobParameters['error_file']}" />
+        </bean>
+        </property>
+        <property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" />
+        </property>
+    </bean>
+
+    <!-- AssetLoad: Persist Assets in DB -->
+    <bean id="assetObjectWriter" class="com.sapienter.jbilling.server.item.batch.AssetItemWriter" >
+    </bean>
+	
+</beans>

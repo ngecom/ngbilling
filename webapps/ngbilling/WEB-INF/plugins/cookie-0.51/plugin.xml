@@ -1,0 +1,12 @@
+<plugin name='cookie' version='0.51' grailsVersion='2.1 &gt; *'>
+  <author>Dale Wiggins</author>
+  <authorEmail>dale@dalew.com</authorEmail>
+  <title>Cookie Plugin</title>
+  <description>Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line</description>
+  <documentation>https://github.com/dalew75/grails-cookie</documentation>
+  <type>CookieGrailsPlugin</type>
+  <resources>
+    <resource>com.dalew.CookieService</resource>
+    <resource>com.dalew.CookieTagLib</resource>
+  </resources>
+</plugin>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+	
+	<!--	generate invoices job bean	-->
+	<job id="generateInvoicesJob" xmlns="http://www.springframework.org/schema/batch">
+		<listeners>
+			<listener ref="billingJobListener" />
+		</listeners>
+		<!-- Partioning job step -->
+		<step id="generateInvoices" next="emailAndPayment">
+			<partition step="partitionGenerateInvoices"
+				partitioner="generateInvoicesPartitioner">
+				<handler grid-size="${springbatch.billing.process.grid.size}" task-executor="taskExecutor" />
+			</partition>
+		</step>
+
+        <!-- Partioning job step -->
+        <step id="emailAndPayment" next="stepDecider">
+            <partition step = "partitionEmailAndPayment"
+                partitioner = "emailAndPaymentPartitioner">
+                <handler grid-size = "${springbatch.billing.process.grid.size}" task-executor = "emailAndPaymentTaskExecutor" />
+            </partition>
+        </step>
+
+		<decision id="stepDecider" decider="jobFlowDecider">
+			<next on="SUCCESS" to="billingSuccess" />
+			<next on="FAILURE" to="billingFailure" />	
+		</decision>
+		<!--	one of the following two steps is executed depending upon exit status of previous step	--> 
+		<step id="billingSuccess">
+			<tasklet ref="billingProcessSucceededTasklet" allow-start-if-complete="true"/>
+		</step>
+		
+		<step id="billingFailure">
+			<tasklet ref="billingProcessFailedTasklet" allow-start-if-complete="true"/>
+		</step>
+		
+	</job>
+	
+	<!--	first step of the job to generate invoices	-->
+	<batch:step id="partitionGenerateInvoices">
+		<batch:tasklet allow-start-if-complete="true">
+			<batch:chunk reader="billingProcessUserReader" processor="billingProcessUserProcessor" writer="billingProcessWriter" commit-interval="1" skip-policy="skipPolicy">					
+				<batch:listeners>
+					<batch:listener ref="skipListener" />
+				</batch:listeners>
+			</batch:chunk>
+		</batch:tasklet>		
+	</batch:step>
+
+	<!--	reader of the chunk oriented step to read the ids of the users to be processed later	-->
+	<bean id="billingProcessUserReader"
+		class="com.sapienter.jbilling.batch.billing.BillingProcessUserReader" scope="step">
+		<property name="minValue" value="#{stepExecutionContext['minValue']}"/>
+		<property name="maxValue" value="#{stepExecutionContext['maxValue']}"/>
+	</bean>
+
+	<!--	processor of chunk oriented step to generate invoices	-->
+	<bean id="billingProcessUserProcessor"
+		class="com.sapienter.jbilling.batch.billing.BillingProcessUserProcessor" parent="jobContextHandler" scope="step">
+		<property name="entityId" value="#{jobParameters['entityId']}"/>
+		<property name="billingDate" value="#{jobParameters['billingDate']}"/>
+		<property name="review" value="#{jobParameters['review']}"/>
+		<property name="stepExecution" value="#{stepExecution}"/>
+	</bean>
+	
+	<!--	writer of chunk oriented step, it does nothing 	-->
+	<bean id="billingProcessWriter" class="com.sapienter.jbilling.batch.billing.BillingProcessWriter" scope="step">
+	</bean>
+	
+	<!--	spring batch tasklet containing piece of that will run if billing process succeeds	-->
+	<bean id="billingProcessSucceededTasklet" class="com.sapienter.jbilling.batch.billing.BillingProcessSucceededTasklet" scope="step">
+		<property name="entityId" value="#{jobParameters['entityId']}"/>
+		<property name="billingDate" value="#{jobParameters['billingDate']}"/>
+		<property name="periodType" value="#{jobParameters['periodType']}"/>
+		<property name="periodValue" value="#{jobParameters['periodValue']}"/>
+		<property name="review" value="#{jobParameters['review']}"/>
+	</bean>
+	
+	<!--	spring batch tasklet containing code that will run if billing process fails	-->
+	<bean id="billingProcessFailedTasklet" class="com.sapienter.jbilling.batch.billing.BillingProcessFailedTasklet" scope="step">
+		<property name="entityId" value="#{jobParameters['entityId']}"/>
+	</bean>
+	
+    <!--    second step of the job to email and payment -->
+    <batch:step id="partitionEmailAndPayment">
+        <batch:tasklet allow-start-if-complete = "true">
+            <batch:chunk reader          = "emailAndPaymentUserReader"
+                         processor       = "emailAndPaymentUserProcessor"
+                         writer          = "emailAndPaymentWriter"
+                         commit-interval = "1"
+                         skip-policy     = "skipPolicy">
+                <batch:listeners>
+                    <batch:listener ref = "skipListener" />
+                </batch:listeners>
+            </batch:chunk>
+        </batch:tasklet>
+    </batch:step>
+
+    <bean id    = "emailAndPaymentUserReader"
+          class = "com.sapienter.jbilling.batch.billing.EmailAndPaymentUserReader"
+          scope = "step" />
+
+    <bean id    = "emailAndPaymentUserProcessor"
+          class = "com.sapienter.jbilling.batch.billing.EmailAndPaymentProcessor"
+          parent= "jobContextHandler"
+          scope = "step">
+        <property name="entityId" value="#{jobParameters['entityId']}"/>
+        <property name="review" value="#{jobParameters['review']}"/>
+        <property name="stepExecution" value="#{stepExecution}"/>
+    </bean>
+
+    <bean id    = "emailAndPaymentWriter"
+          class = "com.sapienter.jbilling.batch.billing.EmailAndPaymentWriter"
+          scope = "step" />
+<!--
+	<bean id="emailAndPaymentTasklet" class="com.sapienter.jbilling.batch.billing.BillingProcessEmailAndPaymentTasklet" parent="jobContextHandler" scope="step">
+		<property name="entityId" value="#{jobParameters['entityId']}"/>
+		<property name="review" value="#{jobParameters['review']}"/>
+		<property name="stepExecution" value="#{stepExecution}"/>
+	</bean>
+-->
+	<!--	spring batch listener to set custom exit status of step	-->
+	<bean id="jobFlowDecider" class="com.sapienter.jbilling.batch.billing.BillingProcessJobFlowDecider" />
+	
+	<!--	spring batch listener to do processing on skipped items	-->
+	<bean id="skipListener" class="com.sapienter.jbilling.batch.billing.BillingProcessSkipListener" parent="jobContextHandler" scope="step">
+		<property name="stepExecution" value="#{stepExecution}"/>
+	</bean>
+	
+	<!--	billing process job listener to initialize maps and save values in database at the start and end of job	-->
+	<bean id="billingJobListener" class="com.sapienter.jbilling.batch.billing.BillingProcessJobListener"/>
+
+	<!--	custom class to save and retrive values from job execution context	-->
+	<bean id="jobContextHandler" class="com.sapienter.jbilling.batch.billing.JobContextHandler" abstract="true"/>
+
+	<bean id="generateInvoicesPartitioner"
+		class="com.sapienter.jbilling.batch.billing.BillingProcessPartitioner" scope="step">
+		<property name="entityId" value="#{jobParameters['entityId']}"/>
+		<property name="billingDate" value="#{jobParameters['billingDate']}"/>
+	</bean>
+
+    <bean id  = "emailAndPaymentPartitioner"
+        class = "com.sapienter.jbilling.batch.billing.EmailAndPaymentPartitioner"
+        scope = "step" />
+
+</beans>

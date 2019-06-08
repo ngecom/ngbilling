@@ -1,0 +1,10 @@
+<plugin name='cxf' version='2.0.1' grailsVersion='2.2 &gt; *'>
+  <author>Grails Plugin Consortium</author>
+  <title>CXF plug-in for Grails</title>
+  <description>Brings easy exposure of service and endpoint classes as Apache CXF SOAP Services to Grails.</description>
+  <documentation>https://github.com/Grails-Plugin-Consortium/grails-cxf</documentation>
+  <type>CxfGrailsPlugin</type>
+  <resources>
+    <resource>DefaultCxfConfig</resource>
+  </resources>
+</plugin>

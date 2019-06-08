@@ -1,0 +1,64 @@
+.jstree-icon.DocDesign {
+    background-image: url('tree/Report_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-open .jstree-icon.DocDesign {
+    background-image: url('tree/Report_O.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-closed .jstree-icon.DocDesign {
+    background-image: url('tree/Report_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-open .jstree-icon.Section {
+    background-image: url('tree/Section_O.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-closed .jstree-icon.Section {
+    background-image: url('tree/Section_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-open .jstree-icon.Band {
+    background-image: url('tree/Band_O.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-closed .jstree-icon.Band {
+    background-image: url('tree/Band_C.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.Text {
+    background-image: url('tree/Text.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.TextBox {
+    background-image: url('tree/TextBox.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.Image {
+     background-image: url('tree/Image.png')!important;
+     background-position: 0 0!important;
+}
+
+.jstree-icon.InvoiceLines {
+    background-image: url('tree/Invoice.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.EventLines {
+    background-image: url('tree/EventLines.png')!important;
+    background-position: 0 0!important;
+}
+
+.jstree-icon.List, .jstree-icon.SubReport {
+    background-image: url('tree/List.png')!important;
+    background-position: 0 0!important;
+}

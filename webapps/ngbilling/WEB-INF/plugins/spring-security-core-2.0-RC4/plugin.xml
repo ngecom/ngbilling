@@ -1,0 +1,15 @@
+<plugin name='spring-security-core' version='2.0-RC4' grailsVersion='2.3.0 &gt; *'>
+  <author>Burt Beckwith</author>
+  <authorEmail>burt@burtbeckwith.com</authorEmail>
+  <title>Spring Security Core Plugin</title>
+  <description>Spring Security Core plugin</description>
+  <documentation>http://grails-plugins.github.io/grails-spring-security-core/</documentation>
+  <type>SpringSecurityCoreGrailsPlugin</type>
+  <resources>
+    <resource>DefaultSecurityConfig</resource>
+    <resource>grails.plugin.springsecurity.LoginController</resource>
+    <resource>grails.plugin.springsecurity.LogoutController</resource>
+    <resource>grails.plugin.springsecurity.SpringSecurityService</resource>
+    <resource>grails.plugin.springsecurity.SecurityTagLib</resource>
+  </resources>
+</plugin>

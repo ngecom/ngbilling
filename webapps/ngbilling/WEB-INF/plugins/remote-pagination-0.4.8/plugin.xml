@@ -1,0 +1,25 @@
+<plugin name='remote-pagination' version='0.4.8' grailsVersion='2.0.3 &gt; *'>
+  <author>Amit Jain</author>
+  <authorEmail>amitjain1982@gmail.com</authorEmail>
+  <title>Remote Pagination Plugin</title>
+  <description>
+   Remote-Pagination plugin provides tags for pagination and to sort columns without page refresh, using ajax and loads only the list of objects needed. It supports multiple paginations as well. More than one remotePaginate, remotePageScroll, remoteNonStopPageScroll and remoteSortableColumn can be used on the same page unlike non-ajax pagination tags.
+</description>
+  <documentation>https://github.com/amitjain1982/remote-pagination</documentation>
+  <type>RemotePaginationGrailsPlugin</type>
+  <resources>
+    <resource>grails.plugins.remotepagination.RemotePaginationTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://grails.org/plugins' url='http://grails.org/plugins' />
+  </repositories>
+  <dependencies />
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>
