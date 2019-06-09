@@ -58,7 +58,7 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
     * Go to the browser and type localhost:8080/ngbilling
     * Login with username and Password admin/ngAdmin123$
     
-  # Supported UseCases by Free version
+  # Supported UseCases by Base version
     # Subscription Billing
       You are running a VOIP/MVNO/Online business platform and need to offer recurring products and/or charge based on usage.
       Your products may need to offer free periods,discount policies and add-ons and you need the flexibility to specify 
