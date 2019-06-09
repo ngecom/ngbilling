@@ -253,8 +253,7 @@
           *         JMS Messaging                           *
           ***************************************************
     -->
-    <!--
-	<bean id="broker" class="org.apache.activemq.broker.BrokerService">
+   	<bean id="broker" class="org.apache.activemq.broker.BrokerService">
 		<property name="useJmx" value="true" />
 		<property name="persistent" value="true" />
 		<property name="transportConnectors">
@@ -271,9 +270,7 @@
    	<bean id="vmConnector" class="org.apache.activemq.broker.TransportConnector">
    		<property name="uri" value="vm://localhost"></property>
    	</bean>
-     -->
     <!-- JMS connection factory -->
-    <!--
     <bean id="jmsConnectionFactory"
           class="org.springframework.jms.connection.TransactionAwareConnectionFactoryProxy"
           >
@@ -296,9 +293,7 @@
             <ref local="jmsConnectionFactory"/>
         </property>
     </bean>
-    -->
     <!-- JMS destinations -->
-    <!--
     <bean id="processorsDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="queue.jbilling.processors"/>
     </bean>
@@ -306,19 +301,19 @@
     <bean id="notificationsDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="queue.jbilling.notifications"/>
     </bean>
-    -->
+    
     <!-- Message driven beans -->
-    <!--
+    
     <bean id="processPaymentMDB" class="com.sapienter.jbilling.server.payment.event.ProcessPaymentMDB"/>
     <bean id="notificationMDB" class="com.sapienter.jbilling.server.notification.NotificationMDB"/>
-    -->
+    
     <!-- Queue listeners -->
-    <!--
+    
     <jms:listener-container connection-factory="jmsConnectionFactory" transaction-manager="transactionManager" acknowledge="transacted">
         <jms:listener ref="processPaymentMDB" destination="queue.jbilling.processors"/>
         <jms:listener ref="notificationMDB" destination="queue.jbilling.notifications"/>
     </jms:listener-container>
-    -->
+    
 
     <!--
           ***************************************************
