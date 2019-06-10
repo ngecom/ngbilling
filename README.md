@@ -8,6 +8,7 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * Apply Discounts and Adjustments(Credit Memo's).
   * B2B and B2C Subscription billing.
   * Auto Payment Allocations.
+  * Asset Management that supports DID numbers and Serial Number of Devices.
  
 # Supported Features in Base version 
   * Configurable Framework with plugin extentions. 
