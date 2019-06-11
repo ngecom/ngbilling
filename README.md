@@ -37,7 +37,7 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * The Account Type entity provides the ability to assign every customer a pre-determined BillingCycle,InvoiceDesign,
     Credit Limit and Credit Notifications. It also generates a new level for Pricing Resolutions, which helps to determine
     pricing for products at the Account Type level. An AccountType must be assigned to any new customer.
-
+          ![alt text](https://github.com/ngecom/ngbilling/blob/master/usermanual/images/AccountType.png)
 # Installation
    # Pre-Requisites
    * Java 8.
