@@ -9,6 +9,8 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * B2B and B2C Subscription billing.
   * Auto Payment Allocations.
   * Asset Management that supports DID numbers and Serial Number of Devices.
+  * Agents And Commissions.
+  * Company Hierarchies.
  
 # Supported Features in Base version 
   * Configurable Framework with plugin extentions. 
@@ -26,6 +28,9 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * Absolute discounts.
   * Notifications(Invoice,Payment,Customer,Order)
   * Flat Rating supported. Additional plugins needs to install for Bundles and flexi rating policies
+  * Generate product based commission for Agents.
+  * Calculate commission based on Generated Invoices and Setup Referal Percentage.
+  * Hierachy management that supports multiples levels of contract managment and invoice can be generated based on levels.
 
 # Installation
    # Pre-Requisites
