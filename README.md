@@ -12,6 +12,7 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * Agents And Commissions.
   * Company Hierarchies.
   * Add your own custom fields and Validation through configuration.
+  * AccountType differentiates Billing cycle,Invoice design, Credit limt and  Notifications for different Account categories. 
  
 # Supported Features in Base version 
   * Configurable Framework with plugin extentions. 
@@ -33,6 +34,9 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * Calculate commission based on Generated Invoices and Setup Referal Percentage.
   * Hierachy management that supports multiples levels of contract managment and invoice can be generated based on levels.
   * Customer fields can be added against Customer, Address, Order and Payment.
+  * The Account Type entity provides the ability to assign every customer a pre-determined BillingCycle,InvoiceDesign,
+    Credit Limit and Credit Notifications. It also generates a new level for Pricing Resolutions, which helps to determine
+    pricing for products at the Account Type level. An AccountType must be assigned to any new customer.
 
 # Installation
    # Pre-Requisites
