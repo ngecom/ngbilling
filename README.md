@@ -119,8 +119,11 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
    * Add and Delete Subscriptions.
    * Payment inquiries.         
   
-
-
+   # Free Support for Base versions.
+   * Deployment and Configuration issues - rksahadevan@gmail.com 
+   * Source Code request - rksahadevan@gmail.com
+   * Customizations and Operational Support - info@ngecom.com
+   * Feasibility of Analyzing usecases to identify customization required - rksahadevan@gmail.com
 
  
 
