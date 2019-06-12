@@ -3080,6 +3080,11 @@ COPY public.ageing_entity_step (id, entity_id, status_id, days, optlock, retry_p
 --
 
 COPY public.asset (id, identifier, create_datetime, status_id, entity_id, deleted, item_id, notes, optlock, group_id, order_line_id, global) FROM stdin;
+100	0503442450	2019-06-12 20:39:04.806	107	10	0	100		1	\N	\N	f
+101	05011502367	2019-06-12 20:39:29.422	107	10	0	100		1	\N	\N	f
+102	0502673487	2019-06-12 20:39:48.88	107	10	0	100		1	\N	\N	f
+103	0423457821	2019-06-12 20:41:55.461	105	10	0	101		1	\N	\N	f
+104	0423457822	2019-06-12 20:42:03.255	105	10	0	101		1	\N	\N	f
 \.
 
 
@@ -3096,6 +3101,11 @@ COPY public.asset_assignment (id, asset_id, order_line_id, start_datetime, end_d
 --
 
 COPY public.asset_entity_map (asset_id, entity_id) FROM stdin;
+100	10
+101	10
+102	10
+103	10
+104	10
 \.
 
 
@@ -3121,9 +3131,18 @@ COPY public.asset_reservation (id, user_id, creator_user_id, asset_id, start_dat
 
 COPY public.asset_status (id, item_type_id, is_default, is_order_saved, is_available, deleted, optlock, is_internal) FROM stdin;
 1	\N	0	0	0	0	1	1
-100	200	1	0	1	0	0	0
-101	200	0	0	0	0	0	0
-102	200	0	1	0	0	0	0
+100	203	0	0	0	0	0	0
+101	203	0	0	0	0	0	0
+102	203	0	1	0	0	0	0
+103	203	0	0	1	0	0	0
+104	203	0	0	0	0	0	0
+105	203	1	0	1	0	0	0
+106	204	0	0	1	0	0	0
+107	204	1	0	1	0	0	0
+108	204	0	0	0	0	0	0
+109	204	0	0	0	0	0	0
+110	204	0	0	0	0	0	0
+111	204	0	1	0	0	0	0
 \.
 
 
@@ -3140,7 +3159,7 @@ COPY public.asset_transition (id, create_datetime, previous_status_id, new_statu
 --
 
 COPY public.base_user (id, entity_id, password, deleted, language_id, status_id, subscriber_status, currency_id, create_datetime, last_status_change, last_login, user_name, failed_attempts, optlock, change_password_date, encryption_scheme, account_locked_time, account_disabled_date) FROM stdin;
-10	10	$2a$10$SRTAryLzbrZ/KKG2tq2jGeEneOXg8Yb.kCxaL8lw//uE78jQ09y3O	0	1	1	9	1	2016-11-13 21:49:47.301	\N	2019-06-10 21:31:18.055	admin	0	19	2019-06-07	6	\N	\N
+10	10	$2a$10$SRTAryLzbrZ/KKG2tq2jGeEneOXg8Yb.kCxaL8lw//uE78jQ09y3O	0	1	1	9	1	2016-11-13 21:49:47.301	\N	2019-06-12 20:35:31.112	admin	0	18	2019-06-07	6	\N	\N
 \.
 
 
@@ -3259,13 +3278,17 @@ COPY public.blacklist (id, entity_id, create_datetime, type, source, credit_card
 --
 
 COPY public.breadcrumb (id, user_id, controller, action, name, object_id, version, description) FROM stdin;
-91	10	customer	edit	create	\N	0	create
-92	10	product	index	\N	\N	0	\N
-93	10	product	editCategory	create	\N	0	create
-94	10	product	list	\N	\N	0	\N
-95	10	product	editCategory	create	\N	0	create
-96	10	product	list	\N	200	0	\N
-97	10	product	editProduct	create	\N	0	create
+121	10	product	editProduct	create	\N	0	create
+122	10	product	show	\N	103	0	\N
+123	10	product	index	\N	\N	0	\N
+124	10	product	list	\N	202	0	\N
+125	10	product	list	\N	201	0	\N
+126	10	product	list	\N	202	0	\N
+127	10	product	editProduct	create	\N	0	create
+128	10	product	show	\N	104	0	\N
+129	10	product	editProduct	create	\N	0	create
+130	10	product	show	\N	105	0	\N
+131	10	product	index	\N	\N	0	\N
 \.
 
 
@@ -4302,12 +4325,9 @@ COPY public.event_log (id, entity_id, user_id, table_id, foreign_id, create_date
 3008	10	\N	10	10	2019-06-07 22:01:29.504	2	2	38	\N	admin	\N	0	10
 4000	10	\N	10	10	2019-06-07 22:04:22.206	2	2	38	\N	admin	\N	0	10
 4001	10	\N	10	10	2019-06-07 22:04:38.565	2	2	39	\N	admin	\N	0	10
-5000	10	\N	10	10	2019-06-08 16:11:54.147	2	2	38	\N	admin	\N	0	10
-5001	10	\N	10	10	2019-06-08 16:12:05.722	2	2	39	\N	admin	\N	0	10
-6000	10	\N	10	10	2019-06-09 13:59:33.507	2	2	38	\N	admin	\N	0	10
-6001	10	\N	10	10	2019-06-09 14:30:10.671	2	2	38	\N	admin	\N	0	10
-7000	10	\N	10	10	2019-06-10 21:31:02.692	2	2	40	\N	admin	\N	0	10
-7001	10	\N	10	10	2019-06-10 21:31:18.056	2	2	38	\N	admin	\N	0	10
+5000	10	\N	10	10	2019-06-12 14:50:30.022	2	2	38	\N	admin	\N	0	10
+5001	10	\N	10	10	2019-06-12 15:27:03.638	2	2	38	\N	admin	\N	0	10
+5002	10	\N	10	10	2019-06-12 20:35:31.112	2	2	38	\N	admin	\N	0	10
 \.
 
 
@@ -9094,9 +9114,24 @@ COPY public.international_description (table_id, foreign_id, psudo_column, langu
 114	14	errorMessage	6	支付卡号码是无效
 114	15	errorMessage	4	Le numéro de routage ABA ou le numéro de compte bancaire ne peut contenir que des chiffres
 114	15	errorMessage	6	ABA路由或银行账号只能是数字
-108	100	description	1	IN STOCK
-108	101	description	1	DEACTIVE
-108	102	description	1	SUBSCRIBED
+108	100	description	1	Defective
+108	101	description	1	Reserved
+108	102	description	1	Rented
+108	103	description	1	Shipped from Supplier
+108	104	description	1	Shipped to Customer
+108	105	description	1	In Stock
+108	106	description	1	Shipped from Supplier
+108	107	description	1	In Stock
+108	108	description	1	Shipped To Customer
+108	109	description	1	Defective
+108	110	description	1	Reserved
+108	111	description	1	Rented
+14	100	description	1	International Mobile Plan
+14	101	description	1	 Fixed Broadband Plan
+14	102	description	1	DID charges
+14	103	description	1	Installation Charges
+14	104	description	1	Mobile Usage charges
+14	105	description	1	Fixed Usage Charges
 \.
 
 
@@ -9162,6 +9197,12 @@ COPY public.invoice_meta_field_map (invoice_id, meta_field_value_id) FROM stdin;
 --
 
 COPY public.item (id, internal_number, entity_id, deleted, has_decimals, optlock, gl_code, price_manual, asset_management_enabled, standard_availability, global, standard_partner_percentage, master_partner_percentage, active_since, active_until, reservation_duration, percentage) FROM stdin;
+100	IMPL	10	0	1	2	IMPL_NE	1	1	t	f	\N	\N	\N	\N	600000	f
+101	FX_BB_PLN	10	0	1	2	FX_BB_GL	1	1	t	f	\N	\N	\N	\N	600000	f
+102	DID_CHG	10	0	1	2	DID_GLCODE	1	0	t	f	\N	\N	\N	\N	600000	f
+103	INST_CHRG	10	0	1	2	INST_GLCODE	1	0	t	f	\N	\N	\N	\N	600000	f
+104	MB_USG_CHG	10	0	1	2	MB_USG_GLCODE	1	0	t	f	\N	\N	\N	\N	600000	f
+105	FX_USG_CHG	10	0	1	2	FX_USG_CHG_GL	1	0	t	f	\N	\N	\N	\N	600000	f
 \.
 
 
@@ -9186,6 +9227,12 @@ COPY public.item_dependency (id, dtype, item_id, min, max, dependent_item_id, de
 --
 
 COPY public.item_entity_map (item_id, entity_id) FROM stdin;
+100	10
+101	10
+102	10
+103	10
+104	10
+105	10
 \.
 
 
@@ -9202,6 +9249,12 @@ COPY public.item_meta_field_map (item_id, meta_field_value_id) FROM stdin;
 --
 
 COPY public.item_price (id, item_id, currency_id, price, optlock, start_date) FROM stdin;
+100	100	1	150.0000000000	0	1970-01-01 00:00:00
+101	101	1	100.0000000000	0	1970-01-01 00:00:00
+102	102	1	5.0000000000	0	1970-01-01 00:00:00
+103	103	1	50.0000000000	0	1970-01-01 00:00:00
+104	104	1	0.0500000000	0	1970-01-01 00:00:00
+105	105	1	0.0700000000	0	1970-01-01 00:00:00
 \.
 
 
@@ -9211,7 +9264,11 @@ COPY public.item_price (id, item_id, currency_id, price, optlock, start_date) FR
 
 COPY public.item_type (id, entity_id, description, order_line_type_id, optlock, internal, parent_id, allow_asset_management, asset_identifier_label, global, one_per_order, one_per_customer) FROM stdin;
 100	10	plans	1	0	t	\N	0	\N	f	f	f
-200	10	Main Subscription	5	1	f	\N	1	ACCOUNT NUMBER	f	f	t
+200	10	AddOnSubscription	1	1	f	\N	0		f	f	f
+201	10	OnetimeCharges	1	1	f	\N	0		f	f	f
+202	10	UsageCharges	1	1	f	\N	0		f	f	f
+203	10	MainFixedSubscription	5	1	f	\N	1	ACCOUNTNUMBER	f	f	t
+204	10	Main Mobile Subscription	5	1	f	\N	1	ACCOUNTNUMBER	f	f	t
 \.
 
 
@@ -9222,6 +9279,10 @@ COPY public.item_type (id, entity_id, description, order_line_type_id, optlock, 
 COPY public.item_type_entity_map (item_type_id, entity_id) FROM stdin;
 100	10
 200	10
+201	10
+202	10
+203	10
+204	10
 \.
 
 
@@ -9238,6 +9299,12 @@ COPY public.item_type_exclude_map (item_id, type_id) FROM stdin;
 --
 
 COPY public.item_type_map (item_id, type_id) FROM stdin;
+100	204
+101	203
+102	200
+103	201
+104	202
+105	202
 \.
 
 
@@ -9301,7 +9368,6 @@ order_billing_type	1
 pluggable_task_type_category	1
 order_change_status	3
 user_credit_card_map	1
-item_price	1
 purchase_order	1
 user_status	1
 invoice_line_type	1
@@ -9341,10 +9407,8 @@ discount	1
 discount_line	1
 asset_transition	1
 notification_message_type	1
-asset	1
 data_table_query_entry	1
 data_table_query	1
-recent_item	1
 order_change	1
 notification_category	1
 item_dependency	1
@@ -9362,7 +9426,6 @@ matching_field	1
 route	1
 order_change_type	1
 pluggable_task_type	2
-item	1
 mediation_cfg	1
 contact	2
 contact_map	2
@@ -9383,10 +9446,14 @@ notification_message_arch	2
 payment_method_type	2
 meta_field_group	3
 user_password	2
-event_log	8
+event_log	6
 item_type	3
 asset_status	2
-breadcrumb	98
+item	2
+item_price	2
+asset	2
+recent_item	7
+breadcrumb	132
 \.
 
 
@@ -10747,6 +10814,11 @@ COPY public.rating_unit (id, name, entity_id, price_unit_name, increment_unit_na
 --
 
 COPY public.recent_item (id, type, object_id, user_id, version) FROM stdin;
+2	PRODUCT	101	10	0
+3	PRODUCT	102	10	0
+4	PRODUCT	103	10	0
+5	PRODUCT	104	10	0
+6	PRODUCT	105	10	0
 \.
 
 
