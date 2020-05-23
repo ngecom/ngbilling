@@ -1,6 +1,17 @@
-# ngbilling
-OpenSource Next Generation Billing and Rating platform for subscription billing,payments and Dunning. Its plug-in architecture allows you to easily apply custom logic and integrate with third party systems easly. Some of the interesting supported usecases are available in last sections. Customized plugins can be configured easly to add features in Billing plugin stack. 
- 
+# OpenSource Billing Based on JBilling And CgRates - Open-Source Subscription Billing & Payments Platform 
+OpenSource Next Generation Billing and Rating platform for subscription billing,payments and Dunning. Its plug-in architecture allows you to easily apply custom logic and integrate with third party systems easly. Some of the interesting supported usecases are available in last sections. Customized plugins can be configured easly to add features in Billing plugin stack. More than 100+ customization plugins on base platform.
+
+# Technology Stack.
+  * Java
+  * Grails
+  * Mysql,Postgres,MSSQL,Oracle 
+  * Go Lang
+  
+# OpenSource Community Stack
+  * JBilling Core
+  * CGRates (Thanks to great Team -http://www.cgrates.org/) . Performance based rating system with multiple integrations. 
+  * Java lovers - OpenRate for Rating . We prefer CGRates even if we are Java experts.
+  
 # Supported Business in Base version.  
   * Telecom Subscription Billing that supports different billing frequencies(Monthly,Yearly,Weekly and Daily).
   * Telecom Flat rating .
@@ -13,7 +24,8 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * Company Hierarchies.
   * Add your own custom fields and Validation through configuration.
   * AccountType differentiates Billing cycle,Invoice design, Credit limt and  Notifications for different Account categories. 
- 
+  * Rating based on CGRates or OpenRate. 
+  
 # Supported Features in Base version 
   * Configurable Framework with plugin extentions. 
   * Scalable Design.
