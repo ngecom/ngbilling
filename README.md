@@ -1,4 +1,4 @@
-# OpenSource Billing Based on JBilling And CgRates - Open-Source Subscription Billing & Payments Platform 
+# OpenSource Billing Based on JBilling And CgRates 
 OpenSource Next Generation Billing and Rating platform for subscription billing,payments and Dunning. Its plug-in architecture allows you to easily apply custom logic and integrate with third party systems easly. Some of the interesting supported usecases are available in last sections. Customized plugins can be configured easly to add features in Billing plugin stack. More than 100+ customization plugins on base platform.
 
 # Technology Stack.
