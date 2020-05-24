@@ -12,6 +12,26 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
   * CGRates (Thanks to great Team -http://www.cgrates.org/) . Performance based rating system with multiple integrations. 
   * Java lovers - OpenRate for Rating . We prefer CGRates even if we are Java experts.
   
+# Based on your Expertise Start Pulling the Binary,Docker or Setting up Dev environment.
+  * Your area of Expertise 
+      * If you are java developer, pull the code from https://github.com/ngecom/ngbillingDocker and Import in  Eclipse/Intellije. 
+      * If you are Devops or system integrator, pull docker from https://hub.docker.com/r/ngecom/ngbilling and run after setting up the DB. 
+      * If you want to install as a standalone container on Tomcat,pull Binary from https://github.com/ngecom/ngbilling after setting up the DB.
+      Please read till end to know how to set up above details
+
+# Think and Read before you configure your business.
+    * Define your product catalog and categorise products based on Subcription, Add-ons and Onetime charges
+    * Configure the Billing frequencies for Subscriptions and Add-Ons(Yearly/Monthly/Weekly).
+    * If Rating engine is required select the rating engine based on Volume
+       * Default rating engine with Mediation Plugin supports 1 to 5 million calls per day .
+       * OpenRate rating engine with  Mediation Plugin supports 1 to 5 million calls per day .
+       * CGRates rating engine with Unlimited Volume performance
+    * Identify the Payment plugin required for customer payments. Authorize.net is provided by default.
+    * Identify the Invoice templates or use default Invoice Templates
+    * Configure SMTP server and Notification Templates to send Invoices or Notifications.
+       
+    Please note binary,sourcecode and Docker is based on default rating engine. Others required additional expertise and   REST API expertise. Support can be provided based on requirement. Refer docs folder for more usecases.  
+  
 # Supported Business in Base version.  
   * Telecom Subscription Billing that supports different billing frequencies(Monthly,Yearly,Weekly and Daily).
   * Telecom Flat rating .
@@ -50,6 +70,7 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
     Credit Limit and Credit Notifications. It also generates a new level for Pricing Resolutions, which helps to determine
     pricing for products at the Account Type level. An AccountType must be assigned to any new customer.
           ![alt text](https://github.com/ngecom/ngbilling/blob/master/usermanual/images/AccountType.png)
+          
 # Installation
    # Pre-Requisites
    * Java 8.
@@ -73,14 +94,22 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
        LC_CTYPE = 'en_US.UTF-8'
        CONNECTION LIMIT = -1;
    * Logout from postgres by entering \q and Run the below command 
-       psql ngbillingbase < /home/rakesh/Downloads/ngbilling-master/sql/ngbillingbase.sql
+       psql ngbillingbase < /ngbilling-master/sql/ngbillingbase.sql
    * Above script will load all required tables to database.
   
    # Login to NGBilling
    * Start the Server
-      * sudo /home/rakesh/Downloads/ngbilling-master/bin/startup.sh
+      * sudo /ngbilling-master/bin/startup.sh
    * Go to the browser and type localhost:8080/ngbilling
    * Login with username and Password admin/ngAdmin123$
+   
+   # Executing Docker Image
+     * Set up the Database as above.
+     * Go to https://hub.docker.com/r/ngecom/ngbilling
+     * docker pull ngecom/ngbilling
+     * docker run --net=host -i -t -p 8080:8080 ngecom/ngbilling:latest
+     * Go to the browser and type localhost:8080/ngbilling
+     * Login with username and Password admin/ngAdmin123$
     
   # Supported UseCases by Base version
   
