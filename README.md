@@ -20,17 +20,17 @@ OpenSource Next Generation Billing and Rating platform for subscription billing,
       Please read till end to know how to set up above details
 
 # Think and Read before you configure your business.
-    * Define your product catalog and categorise products based on Subcription, Add-ons and Onetime charges
+    * Define your product catalog and categorise products based on Subcription, Add-ons and Onetime products/services.
     * Configure the Billing frequencies for Subscriptions and Add-Ons(Yearly/Monthly/Weekly).
-    * If Rating engine is required select the rating engine based on Volume
-       * Default rating engine with Mediation Plugin supports 1 to 5 million calls per day .
-       * OpenRate rating engine with  Mediation Plugin supports 1 to 5 million calls per day .
-       * CGRates rating engine with Unlimited Volume performance
+    * If Rating engine is required select the rating engine based on call Volumes
+       * Default rating engine with Mediation Plugin supports 1 to 5 million call records per day .
+       * OpenRate rating engine with  Mediation Plugin supports 1 to 5 million call records per day .
+       * CGRates rating engine with Unlimited Volume performance.
     * Identify the Payment plugin required for customer payments. Authorize.net is provided by default.
     * Identify the Invoice templates or use default Invoice Templates
     * Configure SMTP server and Notification Templates to send Invoices or Notifications.
        
-    Please note binary,sourcecode and Docker is based on default rating engine. Others required additional expertise and   REST API expertise. Support can be provided based on requirement. Refer docs folder for more usecases.  
+    Please note binary,sourcecode and Docker is based on default rating engine. Others required additional expertise and   REST API expertise. Support can be provided based on requirement. Refer docs folder(/ngbilling-master/docs) for more usecases.  
   
 # Supported Business in Base version.  
   * Telecom Subscription Billing that supports different billing frequencies(Monthly,Yearly,Weekly and Daily).
